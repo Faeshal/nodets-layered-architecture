@@ -1,6 +1,6 @@
-🥇 Typescript Service Layer Architecture REST API Boilerplate with **[Sequelize](https://sequelize.org/)** ORM
+🥇 Typescript Service Layer Architecture REST API Boilerplate with **[TypeORM](https://typeorm.io/.org/)** ORM
 
-![img](https://i.postimg.cc/tCV5fVJZ/node-rest-template.png)
+![img](https://i.postimg.cc/Hkffrzb4/img.jpg)
 
 🌴 Looking for **JS** implementation ? **[nodejs-layered-architecture](https://github.com/Faeshal/nodejs-layered-architecture)**
 
