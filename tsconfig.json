@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    /* Source Map Options */
+    "sourceRoot": "./src",
+    "inlineSourceMap": true,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "typeRoots": ["./src/@types", "./node_modules/@types"]
+  }
+}
