@@ -4,16 +4,20 @@ import log4js from "log4js";
 const log = log4js.getLogger("repository:category");
 log.level = "debug";
 
+// data mapper
+const categoryRepo = AppDataSource.getRepository(Category)
+
 export const create = async (body: any) => {
-    const data = await Category.save(body)
+    const data = await categoryRepo.save(body)
     return data;
 };
 
 export const findAll = async (limit: number, offset: number, filter: any) => {
-    const data = await Category.findAndCount({
+    const data = await categoryRepo.findAndCount({
         where: filter,
         skip: offset,
-        take: limit
+        take: limit,
+        order: { id: "DESC" },
     });
     log.warn('data', data)
     return data;
@@ -32,7 +36,7 @@ export const bulkCreate = async (bodyArr: any) => {
 };
 
 export const findOne = async (filter: any) => {
-    const data = await Category.findOne({ where: filter });
+    const data = await categoryRepo.findOne({ where: filter });
     return data
 };
 

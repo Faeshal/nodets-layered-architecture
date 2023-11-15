@@ -4,13 +4,18 @@ import log4js from "log4js";
 const log = log4js.getLogger("repository:income");
 log.level = "info";
 
+// data mapper
+const incomeRepo = AppDataSource.getRepository(Income)
+
 export const create = async (body: any) => {
-    const data = await Income.save(body)
+    log.warn("data", body)
+    const data = await incomeRepo.save(body)
+    log.warn("data", data)
     return data
 };
 
 export const findAll = async (limit: number, offset: number, filter: any) => {
-    const data = await Income.findAndCount({
+    const data = await incomeRepo.findAndCount({
         relations: {
             user: true,
             categories: true
@@ -34,17 +39,17 @@ export const findAll = async (limit: number, offset: number, filter: any) => {
 };
 
 export const findOne = async (filter: any) => {
-    const data = await Income.findOne({ where: filter });
+    const data = await incomeRepo.findOne({ where: filter });
     return data
 };
 
 export const update = async (id: number, body: any) => {
-    const data = await Income.update(id, body)
+    const data = await incomeRepo.update(id, body)
     return data;
 };
 
 export const destroy = async (id: number) => {
-    const data = await Income.delete(id)
+    const data = await incomeRepo.delete(id)
     return data;
 };
 

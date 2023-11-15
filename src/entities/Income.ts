@@ -1,9 +1,9 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, JoinTable, DeleteDateColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, JoinTable, DeleteDateColumn } from "typeorm"
 import { User } from "./User"
 import { Category } from "./Category"
 
 @Entity()
-export class Income extends BaseEntity {
+export class Income {
 
     @PrimaryGeneratedColumn()
     id: number

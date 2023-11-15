@@ -9,7 +9,7 @@ export const addIncome = async (body: any) => {
   const { name, value, userId, categories } = body
 
   // income
-  const data = await incomeRepo.create({ name, value, userId });
+  const data = await incomeRepo.create({ name, value, user: userId });
   const incomeId = data.id
 
   // category 

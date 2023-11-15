@@ -2,7 +2,7 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, CreateDateColumn, U
 import { Income } from "./Income";
 
 @Entity()
-export class Category extends BaseEntity {
+export class Category {
 
     @PrimaryGeneratedColumn()
     id: number
