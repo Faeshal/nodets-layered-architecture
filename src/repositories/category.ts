@@ -49,3 +49,9 @@ export const destroy = async (filter: any) => {
     const data = await AppDataSource.manager.createQueryBuilder(Category, "category").softDelete().where("id = :id", filter).execute();
     return data
 };
+
+
+export const findRaw = async () => {
+    const data = await AppDataSource.query(`SELECT * FROM category`)
+    return data
+};

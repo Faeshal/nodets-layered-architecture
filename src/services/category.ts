@@ -16,8 +16,6 @@ export const getCategories = async (body: any) => {
     return data;
 };
 
-
-
 export const deleteCategory = async (id: any) => {
     log.info("id:", id);
     let data = await categoryRepo.destroy({ id })

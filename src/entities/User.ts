@@ -20,19 +20,19 @@ export class User {
     @Column()
     password: string
 
-    @CreateDateColumn()
+    @CreateDateColumn({ precision: 0 })
     createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ precision: 0 })
     updatedAt: Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({ precision: 0 })
     deletedAt: Date
 
     @OneToMany(() => Income, (income: any) => income.user)
     incomes: Income[]
 
-    @OneToOne(() => Profile, (profile: any) => profile.user, { cascade: true })
+    @OneToOne(() => Profile, (profile: any) => profile.user, { cascade: ['insert'] })
     @JoinColumn()
     profile: Profile
 }

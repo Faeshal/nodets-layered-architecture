@@ -1,6 +1,9 @@
 import asyncHandler from "express-async-handler";
 import * as userService from "../services/user"
 import { paginate } from "../utils/paginate";
+import { validationResult } from "express-validator";
+import { ErrorResponse } from "../middleware/errorHandler";
+import _ from 'underscore'
 import log4js from "log4js";
 const log = log4js.getLogger("controllers:user");
 log.level = "info";
@@ -9,11 +12,25 @@ log.level = "info";
 // @desc    get users
 // @access  private
 export const getUsers = asyncHandler(async (req, res, next) => {
-    const { role } = req.query
+    const { role, search } = req.query
     let filter: any = {}
     if (role) {
         filter.role = role
     }
+
+
+    // if (search) {
+    //     let searchOption = {
+    //         [Op.or]: [
+    //             { email: { [Op.like]: `%${search}%` } },
+    //             { id: { [Op.like]: `%${search}%` } },
+    //             { username: { [Op.like]: `%${search}%` } },
+    //             { fullName: { [Op.like]: `%${search}%` } },
+    //         ],
+    //     };
+    //     filter = _.extend(searchOption, filter);
+    // }
+
 
     const data = await userService.getUsers({
         limit: req.query.limit,

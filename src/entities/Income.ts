@@ -14,13 +14,13 @@ export class Income {
     @Column()
     value: number
 
-    @CreateDateColumn()
+    @CreateDateColumn({ precision: 0 })
     createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ precision: 0 })
     updatedAt: Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({ precision: 0 })
     deletedAt: Date
 
     @ManyToOne(() => User, (user) => user.incomes)

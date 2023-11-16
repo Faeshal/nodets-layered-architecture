@@ -19,13 +19,13 @@ export class Profile {
     @Column()
     job: string
 
-    @CreateDateColumn()
+    @CreateDateColumn({ precision: 0 })
     createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ precision: 0 })
     updatedAt: Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({ precision: 0 })
     deletedAt: Date
 
     @OneToOne(() => User, (user: any) => user.profile)

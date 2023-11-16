@@ -10,13 +10,13 @@ export class Category {
     @Column()
     tag: string
 
-    @CreateDateColumn()
+    @CreateDateColumn({ precision: 0 })
     createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ precision: 0 })
     updatedAt: Date;
 
-    @DeleteDateColumn()
+    @DeleteDateColumn({ precision: 0 })
     deletedAt: Date
 
     @ManyToMany(() => Income, (income: any) => income.categories)

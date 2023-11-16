@@ -13,8 +13,9 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     synchronize: true,
-    logging: false,
+    logging: true,
     entities: [User, Income, Category, Profile],
     migrations: [],
     subscribers: [],
+    timezone: "+07:00" // wib
 })

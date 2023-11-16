@@ -16,7 +16,6 @@ class ErrorResponse extends Error {
 
 const errorHandler = (err: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
   log.error("errorHandler:", err);
-  log.info("MASUK SINI")
   res.status(err.statusCode || 500).json({
     success: false,
     message: err.message || "Server Error",
