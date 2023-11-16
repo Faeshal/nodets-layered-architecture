@@ -11,7 +11,7 @@ log.level = "info";
 // @desc      signup new user
 // @access    Public 
 export const register = asyncHandler(async (req, res, next) => {
-    var { username, email, password, role } = req.body;
+    var { username, email, password, role, job, age, address, gender } = req.body;
     log.info("body:", req.body);
 
     // *Express Validator
@@ -22,7 +22,7 @@ export const register = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const result = await authService.register({ username, email, password, role })
+    const result = await authService.register({ username, email, password, role, job, age, address, gender })
     if (result.success == false) {
         return next(new ErrorResponse(result.message, result.statusCode));
     }

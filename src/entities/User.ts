@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, DeleteDateColumn } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, DeleteDateColumn, JoinColumn, OneToOne } from "typeorm"
 import { Income } from "./Income"
+import { Profile } from "./Profile"
 
 @Entity()
 export class User {
@@ -30,4 +31,8 @@ export class User {
 
     @OneToMany(() => Income, (income: any) => income.user)
     incomes: Income[]
+
+    @OneToOne(() => Profile, (profile: any) => profile.user, { cascade: true })
+    @JoinColumn()
+    profile: Profile
 }

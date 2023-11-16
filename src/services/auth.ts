@@ -6,9 +6,9 @@ import log4js from "log4js";
 const log = log4js.getLogger("service:auth");
 log.level = "debug";
 
-export const register = async (body: { username: string, email: string, password: string, role: string }) => {
+export const register = async (body: { username: string, email: string, password: string, role: string, gender: string, job: string, address: string, age: number }) => {
     log.info("body:", body);
-    const { username, email, password, role } = body;
+    const { username, email, password, role, gender, job, address, age } = body;
 
     // * call repo (check double email)
     const emailExist = await userRepo.findOne({ email });
@@ -25,8 +25,11 @@ export const register = async (body: { username: string, email: string, password
     // * hash Pass
     const hashedPw = await bcrypt.hash(password, 12);
 
-    // * save user
-    const result = await userRepo.create({ username, email, password: hashedPw, role })
+    // save profile first [old ways, separate insert operation]
+    // const profile = await userRepo.createProfile({ gender, job, address, age }) // return profile.id -> then save fk to join table
+
+    // * save user [including profile, one operation]
+    const result = await userRepo.create({ username, email, password: hashedPw, role, profile: { gender, job, address, age } })
 
     // * formating return data
     const fmtData = { id: result.id, username, email };
