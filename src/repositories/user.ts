@@ -40,21 +40,14 @@ export const createProfile = async (body: any) => {
     return data
 };
 
-// export const findByDateRange = async (limit: number, offset: number, filter: any) => {
+export const findByDateRange = async (limit: number, offset: number, filter: any) => {
+    const data = await userRepo.createQueryBuilder("user")
+        .where("user.createdAt >= :start", { start: "2023-11-07 21:29:06" })
+        .andWhere("user.createdAt <= :end", { end: "2023-11-16 23:29:06" })
+        .andWhere("user.role = :role", { role: "admin" })
+        .andWhere("user.username = :username", { username: "fauziah" })
+        .getMany();
 
-
-
-//     const data = await userRepo.findAndCount({
-//         where: {
-//             createdAt: Between(
-//                 format(typeof "2023-11-16T14:29:06.000Z" === 'string' ? new Date("2023-11-16T14:29:06.000Z") : "2023-11-16T14:29:06.000Z", 'YYYY-MM-DD HH:MM:SS'),
-//                 format(typeof "2023-11-18T14:29:06.000Z" === 'string' ? new Date("2023-11-18T14:29:06.000Z") : "2023-11-18T14:29:06.000Z", 'YYYY-MM-DD HH:MM:SS'),
-//             );
-//         },
-//         order: { id: 'DESC' },
-//         skip: offset,
-//         take: limit,
-//         relations: { profile: true }
-//     });
-//     return data
-// };
+    // .andWhere("user.username = :username", { username: "malika" })
+    return data
+};
