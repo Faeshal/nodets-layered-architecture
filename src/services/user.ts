@@ -7,11 +7,6 @@ export const getUsers = async (body: any) => {
     log.info("body", body)
     const { limit, offset, filter } = body
     let data = await userRepo.findAll(limit, offset, filter);
-
-    // date range trigger
-    const date = await userRepo.findByDateRange(limit, offset, filter)
-    log.warn("DATE RANGE:", date)
-
     return data;
 };
 

@@ -17,20 +17,9 @@ export const getUsers = asyncHandler(async (req, res, next) => {
     if (role) {
         filter.role = role
     }
-
-
-    // if (search) {
-    //     let searchOption = {
-    //         [Op.or]: [
-    //             { email: { [Op.like]: `%${search}%` } },
-    //             { id: { [Op.like]: `%${search}%` } },
-    //             { username: { [Op.like]: `%${search}%` } },
-    //             { fullName: { [Op.like]: `%${search}%` } },
-    //         ],
-    //     };
-    //     filter = _.extend(searchOption, filter);
-    // }
-
+    if (search) {
+        filter.search = search
+    }
 
     const data = await userService.getUsers({
         limit: req.query.limit,
@@ -61,13 +50,16 @@ export const getUsers = asyncHandler(async (req, res, next) => {
 // @desc    get users
 // @access  private
 export const getUsersByDateRange = asyncHandler(async (req, res, next) => {
-    const { role, startDate, endDate } = req.body
+    const { role, startDate, endDate, job } = req.body
     let filter: any = {}
     filter.startDate = startDate
     filter.endDate = endDate
 
     if (role) {
         filter.role = role
+    }
+    if (job) {
+        filter.job = job
     }
 
     const data = await userService.getUsersByDateRange({
