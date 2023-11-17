@@ -41,13 +41,23 @@ export const createProfile = async (body: any) => {
 };
 
 export const findByDateRange = async (limit: number, offset: number, filter: any) => {
-    const data = await userRepo.createQueryBuilder("user")
-        .where("user.createdAt >= :start", { start: "2023-11-07 21:29:06" })
-        .andWhere("user.createdAt <= :end", { end: "2023-11-16 23:29:06" })
-        .andWhere("user.role = :role", { role: "admin" })
-        .andWhere("user.username = :username", { username: "fauziah" })
-        .getMany();
+    const { startDate, endDate, role } = filter
+    log.info("LOG REPOSITORY", filter)
 
-    // .andWhere("user.username = :username", { username: "malika" })
+    // construct main query
+    var query = userRepo.createQueryBuilder("user")
+        .where("user.createdAt >= :start", { start: startDate })
+        .andWhere("user.createdAt <= :end", { end: endDate })
+        .skip(offset)
+        .take(limit)
+
+    if (role) {
+        query = query.andWhere("user.role = :role", { role });
+    }
+
+    // final call
+    const data = await query
+        .getManyAndCount();
+
     return data
 };

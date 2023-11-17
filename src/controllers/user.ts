@@ -55,3 +55,41 @@ export const getUsers = asyncHandler(async (req, res, next) => {
         data: data[0] || [],
     });
 });
+
+
+// * @route POST /api/v1/users/reports/dateranges
+// @desc    get users
+// @access  private
+export const getUsersByDateRange = asyncHandler(async (req, res, next) => {
+    const { role, startDate, endDate } = req.body
+    let filter: any = {}
+    filter.startDate = startDate
+    filter.endDate = endDate
+
+    if (role) {
+        filter.role = role
+    }
+
+    const data = await userService.getUsersByDateRange({
+        limit: req.query.limit,
+        offset: req.skip,
+        filter
+    });
+
+    // * pagination
+    const pagin = await paginate({
+        length: data[1],
+        limit: req.query.limit,
+        page: req.query.page,
+        req,
+    });
+
+    res.status(200).json({
+        success: true,
+        totalData: data[1],
+        totalPage: pagin?.totalPage,
+        currentPage: pagin?.currentPage,
+        nextPage: pagin?.nextPage,
+        data: data[0] || [],
+    });
+});
