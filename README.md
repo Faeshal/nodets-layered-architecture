@@ -18,7 +18,7 @@
 
 3. Data Access Layer / Repository (for interacting with the database)🛡️
 
-   The Data Access layer can take up the responsibility of talking to the database - fetching from, writing to, and updating it. All your SQL queries, database connections, models, ORM (object-relational mappers), etc. are supposed to be defined here. In this version i use an sql database with Sequelize ORM. So if you use NoSQL database or other ORM you can customize it, basically the concept is the same, you must create a repository layer.
+   The Data Access layer can take up the responsibility of talking to the database - fetching from, writing to, and updating it. All your SQL queries, database connections, models, ORM (object-relational mappers), etc. are supposed to be defined here. In this version i use an sql database with TypeORM. So if you use NoSQL database or other ORM you can customize it, basically the concept is the same, you must create a repository layer.
 
 This three-layer setup serves as a reliable scaffolding for most Node.js applications, making your applications easier to code, maintain, debug and test.
 
