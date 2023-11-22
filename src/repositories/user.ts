@@ -32,6 +32,7 @@ export const findAll = async (limit: number, offset: number, filter: any) => {
         .leftJoinAndSelect("user.profile", "profile")
         .skip(offset)
         .take(limit)
+        .orderBy("user.id", "DESC")
 
 
 
