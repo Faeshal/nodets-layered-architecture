@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import * as incomeService from "../services/income"
+import * as incomeService from "../services/income";
 import { ErrorResponse } from "../middleware/errorHandler";
 import { validationResult } from "express-validator";
 import { paginate } from "../utils/paginate";
@@ -11,16 +11,16 @@ log.level = "info";
 // @desc    get incomes
 // @access  public
 export const getIncomes = asyncHandler(async (req, res, next) => {
-  const { name } = req.query
-  let filter: any = {}
+  const { name } = req.query;
+  let filter: any = {};
   if (name) {
-    filter.name = name
+    filter.name = name;
   }
 
   const data = await incomeService.getIncomes({
     limit: req.query.limit,
     offset: req.skip,
-    filter
+    filter,
   });
 
   // * pagination
@@ -46,7 +46,7 @@ export const getIncomes = asyncHandler(async (req, res, next) => {
 // @access  public
 export const addIncomes = asyncHandler(async (req, res, next) => {
   log.info("body:", req.body);
-  const { name, value, userId, categories } = req.body
+  const { name, value, userId, categories } = req.body;
 
   // *Express Validator
   const errors = validationResult(req);
@@ -56,7 +56,12 @@ export const addIncomes = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const data = await incomeService.addIncome({ name, value, userId, categories });
+  const data = await incomeService.addIncome({
+    name,
+    value,
+    userId,
+    categories,
+  });
 
   res.status(201).json({ success: true, message: "created", data });
 });
@@ -95,9 +100,7 @@ export const updateIncome = asyncHandler(async (req, res, next) => {
   // * check valid id
   const isValid = await incomeService.getIncome(parseInt(id));
   if (!isValid) {
-    return next(
-      new ErrorResponse("invalid id", 400)
-    );
+    return next(new ErrorResponse("invalid id", 400));
   }
 
   // * call update service
@@ -115,9 +118,7 @@ export const deleteIncome = asyncHandler(async (req, res, next) => {
   // * check valid id
   const isValid = await incomeService.getIncome(parseInt(id));
   if (!isValid) {
-    return next(
-      new ErrorResponse("invalid id", 400)
-    );
+    return next(new ErrorResponse("invalid id", 400));
   }
 
   // * call delete service

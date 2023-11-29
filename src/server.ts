@@ -1,6 +1,6 @@
 "use strict";
 import "dotenv/config";
-import PrettyError from "pretty-error"
+import PrettyError from "pretty-error";
 import express, { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "./config/data-source";
 import morgan from "morgan";
@@ -12,7 +12,7 @@ import log4js from "log4js";
 import paginate from "express-paginate";
 import dayjs from "dayjs";
 import { errorHandler } from "./middleware/errorHandler";
-import route from "./routes/index"
+import route from "./routes/index";
 const PORT: any = process.env.PORT || 3000;
 const pe = new PrettyError();
 const app: any = express();
@@ -81,19 +81,16 @@ log4js.configure({
   },
 });
 
-
 // * db sync
 (async () => {
   try {
-    await AppDataSource.initialize()
+    await AppDataSource.initialize();
     log.info("✅ Maria Connected");
   } catch (error) {
     log.error("Maria Connection Failure 🔥", error);
     process.exit(1);
   }
 })();
-
-
 
 // * Server Listen
 app.listen(PORT, (err: any) => {

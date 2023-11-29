@@ -1,7 +1,7 @@
-import express from "express"
-import * as incomeController from "../../controllers/income"
-import { body, param } from "express-validator"
-const router = express.Router()
+import express from "express";
+import * as incomeController from "../../controllers/income";
+import { body, param } from "express-validator";
+const router = express.Router();
 
 router.get("/incomes", incomeController.getIncomes);
 router.post(
@@ -38,13 +38,9 @@ router.delete(
   incomeController.deleteIncome
 );
 
+router.get("/incomes/test/aja", (req, res) => {
+  res.status(200).json({ success: true, data: "apa" });
+});
 
-router.get(
-  "/incomes/test/aja",
-  (req, res) => {
-    res.status(200).json({ success: true, data: "apa" })
-  });
-
-
-export default router
+export default router;
 // module.exports = router;

@@ -1,56 +1,65 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, DeleteDateColumn } from "typeorm"
-import { User } from "./User"
-import dayjs from "dayjs"
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  DeleteDateColumn,
+} from "typeorm";
+import { User } from "./User";
+import dayjs from "dayjs";
 
 @Entity()
 export class Profile {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number
+  @Column()
+  address: string;
 
-    @Column()
-    address: string
+  @Column()
+  gender: string;
 
-    @Column()
-    gender: string
+  @Column()
+  age: number;
 
-    @Column()
-    age: number
+  @Column()
+  job: string;
 
-    @Column()
-    job: string
+  @CreateDateColumn({
+    precision: 0,
+    transformer: {
+      to(value) {
+        return value;
+      },
+      from(value) {
+        const date = dayjs(value).format("YYYY-MM-DD HH:mm:ss");
+        return date;
+      },
+    },
+  })
+  createdAt: Date;
 
-    @CreateDateColumn({
-        precision: 0, transformer: {
-            to(value) {
-                return value
-            },
-            from(value) {
-                const date = dayjs(value).format('YYYY-MM-DD HH:mm:ss')
-                return date;
-            }
-        },
-    })
-    createdAt: Date;
+  @UpdateDateColumn({
+    precision: 0,
+    transformer: {
+      to(value) {
+        return value;
+      },
+      from(value) {
+        const date = dayjs(value).format("YYYY-MM-DD HH:mm:ss");
+        return date;
+      },
+    },
+  })
+  updatedAt: Date;
 
-    @UpdateDateColumn({
-        precision: 0, transformer: {
-            to(value) {
-                return value
-            },
-            from(value) {
-                const date = dayjs(value).format('YYYY-MM-DD HH:mm:ss')
-                return date;
-            }
-        },
-    })
-    updatedAt: Date;
+  @DeleteDateColumn({
+    precision: 0,
+  })
+  deletedAt: Date;
 
-    @DeleteDateColumn({
-        precision: 0
-    })
-    deletedAt: Date
-
-    @OneToOne(() => User, (user: any) => user.profile)
-    user: User
+  @OneToOne(() => User, (user: any) => user.profile)
+  user: User;
 }

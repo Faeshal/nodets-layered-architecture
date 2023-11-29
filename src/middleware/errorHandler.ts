@@ -13,15 +13,18 @@ class ErrorResponse extends Error {
   }
 }
 
-
-const errorHandler = (err: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
+const errorHandler = (
+  err: ErrorResponse,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   log.error("errorHandler:", err);
   res.status(err.statusCode || 500).json({
     success: false,
     message: err.message || "Server Error",
-    data: null
+    data: null,
   });
 };
-
 
 export { ErrorResponse, errorHandler };

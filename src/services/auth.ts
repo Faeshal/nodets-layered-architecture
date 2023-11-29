@@ -1,6 +1,6 @@
 import "dotenv/config";
-import * as userRepo from "../repositories/user"
-import { generateToken } from "../utils/paseto"
+import * as userRepo from "../repositories/user";
+import { generateToken } from "../utils/paseto";
 import { RegisterUser } from "../interfaces/user";
 import bcrypt from "bcrypt";
 import log4js from "log4js";
@@ -8,76 +8,86 @@ const log = log4js.getLogger("service:auth");
 log.level = "debug";
 
 export const register = async (body: RegisterUser) => {
-    log.info("body:", body);
-    const { username, email, password, role, gender, job, address, age } = body;
+  log.info("body:", body);
+  const { username, email, password, role, gender, job, address, age } = body;
 
-    // * call repo (check double email)
-    const emailExist = await userRepo.findOne({ email });
-    if (emailExist) {
-        return { success: false, statusCode: 400, message: "email already exist" };
-    }
+  // * call repo (check double email)
+  const emailExist = await userRepo.findOne({ email });
+  if (emailExist) {
+    return { success: false, statusCode: 400, message: "email already exist" };
+  }
 
-    // * call repo (check double uname)
-    const unameExist = await userRepo.findOne({ username });
-    if (unameExist) {
-        return { success: false, statusCode: 400, message: "username already exist" };
-    }
-
-    // * hash Pass
-    const hashedPw = await bcrypt.hash(password, 12);
-
-    // save profile first [old ways, separate insert operation]
-    // const profile = await userRepo.createProfile({ gender, job, address, age }) // return profile.id -> then save fk to join table
-
-    // * save user [including profile, one operation]
-    const result = await userRepo.create({ username, email, password: hashedPw, role, profile: { gender, job, address, age } })
-
-    // * formating return data
-    const fmtData = { id: result.id, username, email };
+  // * call repo (check double uname)
+  const unameExist = await userRepo.findOne({ username });
+  if (unameExist) {
     return {
-        success: true,
-        statusCode: 200,
-        message: "ok",
-        data: fmtData
+      success: false,
+      statusCode: 400,
+      message: "username already exist",
     };
+  }
+
+  // * hash Pass
+  const hashedPw = await bcrypt.hash(password, 12);
+
+  // save profile first [old ways, separate insert operation]
+  // const profile = await userRepo.createProfile({ gender, job, address, age }) // return profile.id -> then save fk to join table
+
+  // * save user [including profile, one operation]
+  const result = await userRepo.create({
+    username,
+    email,
+    password: hashedPw,
+    role,
+    profile: { gender, job, address, age },
+  });
+
+  // * formating return data
+  const fmtData = { id: result.id, username, email };
+  return {
+    success: true,
+    statusCode: 200,
+    message: "ok",
+    data: fmtData,
+  };
 };
 
-export const login = async (body: { email: string, password: string }) => {
-    log.info("body:", body);
-    const { email, password } = body
+export const login = async (body: { email: string; password: string }) => {
+  log.info("body:", body);
+  const { email, password } = body;
 
-    // * check is email exist ?
-    const user = await userRepo.findOne({ email });
-    if (!user) {
-        return {
-            success: false,
-            statusCode: 400,
-            message: "email / password doesn't match or exists",
-        };
-    }
-
-    // * compare Password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-        return {
-            success: false,
-            statusCode: 400,
-            message: "email / password doesn't match or exists",
-        };
-    }
-
-    // * generate paseto token
-    const tokenPayload = {
-        id: user.id,
-        timestamp: Date.now(),
-        role: user.role
+  // * check is email exist ?
+  const user = await userRepo.findOne({ email });
+  if (!user) {
+    return {
+      success: false,
+      statusCode: 400,
+      message: "email / password doesn't match or exists",
     };
-    const accessToken = await generateToken(tokenPayload);
+  }
 
-    // * formating data
-    const fmtData = {
-        isLoggedIn: true,
-        accessToken: accessToken.data,
+  // * compare Password
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    return {
+      success: false,
+      statusCode: 400,
+      message: "email / password doesn't match or exists",
     };
-    return { success: true, statusCode: 200, message: "ok", data: fmtData };
+  }
+
+  // * generate paseto token
+  const tokenPayload = {
+    id: user.id,
+    timestamp: Date.now(),
+    role: user.role,
+  };
+  const accessToken = await generateToken(tokenPayload);
+
+  // * formating data
+  const fmtData = {
+    isLoggedIn: true,
+    accessToken: accessToken.data,
+  };
+  return { success: true, statusCode: 200, message: "ok", data: fmtData };
 };
