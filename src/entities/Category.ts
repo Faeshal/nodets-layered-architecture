@@ -12,8 +12,8 @@ import dayjs from "dayjs";
 
 @Entity()
 export class Category {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   tag: string;

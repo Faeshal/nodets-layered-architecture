@@ -43,19 +43,19 @@ export const getIncomes = async (body: any) => {
   return data;
 };
 
-export const getIncome = async (id: number) => {
+export const getIncome = async (id: string) => {
   log.info("id:", id);
   const data = await incomeRepo.findOne({ id });
   return data;
 };
 
-export const update = async (id: number, body: any) => {
+export const update = async (id: string, body: any) => {
   log.info(`id:${id} - body:${body}`);
   const data = await incomeRepo.update(id, body);
   return data;
 };
 
-export const destroy = async (id: number) => {
+export const destroy = async (id: string) => {
   log.info("id:", id);
   const data = await incomeRepo.destroy(id);
   return data;

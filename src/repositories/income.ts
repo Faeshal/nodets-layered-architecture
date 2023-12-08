@@ -45,12 +45,12 @@ export const findOne = async (filter: any) => {
   return data;
 };
 
-export const update = async (id: number, body: any) => {
+export const update = async (id: string, body: any) => {
   const data = await incomeRepo.update(id, body);
   return data;
 };
 
-export const destroy = async (id: number) => {
+export const destroy = async (id: string) => {
   const data = await incomeRepo.delete(id);
   return data;
 };

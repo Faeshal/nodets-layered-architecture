@@ -54,8 +54,8 @@ export const addCategory = asyncHandler(async (req, res, next) => {
       new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
     );
   }
-  await categoryService.addCategory(req.body);
-  res.status(201).json({ success: true, message: "category create" });
+  const data = await categoryService.addCategory(req.body);
+  res.status(201).json({ success: true, message: "category create", data });
 });
 
 // * @route delete /api/v1/categories

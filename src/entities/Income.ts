@@ -15,8 +15,8 @@ import dayjs from "dayjs";
 
 @Entity()
 export class Income {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   name: string;

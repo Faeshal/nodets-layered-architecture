@@ -78,7 +78,7 @@ export const getIncome = asyncHandler(async (req, res, next) => {
       new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
     );
   }
-  const data = await incomeService.getIncome(parseInt(id));
+  const data = await incomeService.getIncome(id);
   res.status(200).json({ success: true, data: data || {} });
 });
 
@@ -98,13 +98,13 @@ export const updateIncome = asyncHandler(async (req, res, next) => {
   }
 
   // * check valid id
-  const isValid = await incomeService.getIncome(parseInt(id));
+  const isValid = await incomeService.getIncome(id);
   if (!isValid) {
     return next(new ErrorResponse("invalid id", 400));
   }
 
   // * call update service
-  await incomeService.update(parseInt(id), req.body);
+  await incomeService.update(id, req.body);
 
   res.status(200).json({ success: true, message: "update success" });
 });
@@ -116,13 +116,13 @@ export const deleteIncome = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   // * check valid id
-  const isValid = await incomeService.getIncome(parseInt(id));
+  const isValid = await incomeService.getIncome(id);
   if (!isValid) {
     return next(new ErrorResponse("invalid id", 400));
   }
 
   // * call delete service
-  await incomeService.destroy(parseInt(id));
+  await incomeService.destroy(id);
 
   res.status(200).json({ success: true, message: "deleted" });
 });
