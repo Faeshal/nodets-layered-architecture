@@ -15,7 +15,7 @@ jest.mock("../../repositories/category");
 //   destroy: jest.fn(),
 // }));
 
-describe("CATEGORY SERVICE", () => {
+describe("UNIT:CATEGORY", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
