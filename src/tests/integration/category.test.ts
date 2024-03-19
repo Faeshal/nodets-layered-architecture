@@ -7,7 +7,7 @@ const log = log4js.getLogger("test:integration:category");
 log.level = "info";
 const chance = new Chance();
 
-var server: any;
+// var server: any;
 
 // dummy category
 var category = {
