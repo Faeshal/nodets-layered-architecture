@@ -47,8 +47,8 @@ describe("UNIT:CATEGORY", () => {
     });
   });
 
-  describe("getCategories", () => {
-    it("should get categories", async () => {
+  describe("get categories", () => {
+    it("should get all categories", async () => {
       const mockCategories: Category[] = [
         {
           id: "1",
@@ -84,7 +84,7 @@ describe("UNIT:CATEGORY", () => {
     });
   });
 
-  describe("deleteCategory", () => {
+  describe("delete category", () => {
     it("should delete a category", async () => {
       const mockCategoryId = "1";
 
