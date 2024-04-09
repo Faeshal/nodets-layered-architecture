@@ -20,11 +20,7 @@ export const register = async (body: RegisterUser) => {
   // * call repo (check double uname)
   const unameExist = await userRepo.findOne({ username });
   if (unameExist) {
-    return {
-      success: false,
-      statusCode: 400,
-      message: "username already exist",
-    };
+    throw new Error("username already exist");
   }
 
   // * hash Pass
@@ -59,21 +55,13 @@ export const login = async (body: { email: string; password: string }) => {
   // * check is email exist ?
   const user = await userRepo.findOne({ email });
   if (!user) {
-    return {
-      success: false,
-      statusCode: 400,
-      message: "email / password doesn't match or exists",
-    };
+    throw new Error("email / password doesn't match or exists");
   }
 
   // * compare Password
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return {
-      success: false,
-      statusCode: 400,
-      message: "email / password doesn't match or exists",
-    };
+    throw new Error("email / password doesn't match or exists");
   }
 
   // * generate paseto token

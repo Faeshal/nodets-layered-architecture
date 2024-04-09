@@ -1,8 +1,6 @@
 import asyncHandler from "express-async-handler";
 import * as userService from "../services/user";
 import { paginate } from "../utils/paginate";
-import { validationResult } from "express-validator";
-import { ErrorResponse } from "../middleware/errorHandler";
 import _ from "underscore";
 import log4js from "log4js";
 const log = log4js.getLogger("controllers:user");

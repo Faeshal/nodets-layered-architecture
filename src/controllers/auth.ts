@@ -31,9 +31,7 @@ export const register = asyncHandler(async (req, res, next) => {
     address,
     gender,
   });
-  if (result.success == false) {
-    return next(new ErrorResponse(result.message, result.statusCode));
-  }
+
   res.status(200).json({ success: true, message: "ok", data: result.data });
 });
 
@@ -54,9 +52,6 @@ export const login = asyncHandler(async (req, res, next) => {
 
   // * call service
   const result = await authService.login({ email, password });
-  if (result.success == false) {
-    return next(new ErrorResponse(result.message, result.statusCode || 500));
-  }
 
   res.status(200).json({ success: true, message: "ok", data: result.data });
 });
