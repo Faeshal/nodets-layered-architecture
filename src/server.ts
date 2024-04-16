@@ -56,7 +56,7 @@ let layoutConfig = {
     id: () => {
       return Date.now();
     },
-    info: (req: Request) => {
+    info: () => {
       const info = dayjs().format("D/M/YYYY h:mm:ss A");
       return info;
     },
@@ -85,7 +85,7 @@ log4js.configure({
 (async () => {
   try {
     await AppDataSource.initialize();
-    log.info("✅ Maria Connected");
+    log.info("✅ MariaDB Connected");
   } catch (error) {
     log.error("Maria Connection Failure 🔥", error);
     process.exit(1);
