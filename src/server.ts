@@ -85,7 +85,7 @@ log4js.configure({
 (async () => {
   try {
     await AppDataSource.initialize();
-    log.info("✅ MariaDB Connected");
+    log.info("✅ Database Connected");
   } catch (error) {
     log.error("Maria Connection Failure 🔥", error);
     process.exit(1);
