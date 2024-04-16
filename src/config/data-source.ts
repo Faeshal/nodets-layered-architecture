@@ -5,8 +5,6 @@ import { Income } from "../entities/Income";
 import { Category } from "../entities/Category";
 import { Profile } from "../entities/Profile";
 
-console.log(process.env.DB_PORT);
-
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: process.env.DB_HOST,
