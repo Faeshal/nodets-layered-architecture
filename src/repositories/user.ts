@@ -25,6 +25,9 @@ export const findAll = async (limit: number, offset: number, filter: any) => {
   //     relations: { profile: true }
   // });
 
+  // we can use select
+  // .select(["user.id", "user.username", "user.email"])
+
   const query = userRepo
     .createQueryBuilder("user")
     .leftJoinAndSelect("user.profile", "profile")

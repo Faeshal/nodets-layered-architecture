@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import log4js from "log4js";
 const log = log4js.getLogger("middleware:errorHandler");
 log.level = "info";
@@ -13,7 +13,12 @@ class ErrorResponse extends Error {
   }
 }
 
-const errorHandler = (err: ErrorResponse, res: Response) => {
+const errorHandler = (
+  err: ErrorResponse,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   log.error("errorHandler:", err);
   res.status(err.statusCode || 500).json({
     success: false,

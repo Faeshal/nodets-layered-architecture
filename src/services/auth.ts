@@ -1,5 +1,6 @@
 import "dotenv/config";
 import * as userRepo from "../repositories/user";
+import { ErrorResponse } from "../middleware/errorHandler";
 import { generateToken } from "../utils/paseto";
 import { RegisterUser } from "../interfaces/user";
 import bcrypt from "bcrypt";
@@ -14,13 +15,13 @@ export const register = async (body: RegisterUser) => {
   // * call repo (check double email)
   const emailExist = await userRepo.findOne({ email });
   if (emailExist) {
-    return { success: false, statusCode: 400, message: "email already exist" };
+    throw new ErrorResponse("email already exist", 400);
   }
 
   // * call repo (check double uname)
   const unameExist = await userRepo.findOne({ username });
   if (unameExist) {
-    throw new Error("username already exist");
+    throw new ErrorResponse("username already exist", 400);
   }
 
   // * hash Pass
@@ -55,13 +56,13 @@ export const login = async (body: { email: string; password: string }) => {
   // * check is email exist ?
   const user = await userRepo.findOne({ email });
   if (!user) {
-    throw new Error("email / password doesn't match or exists");
+    throw new ErrorResponse("email / password doesn't match or exists", 400);
   }
 
   // * compare Password
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new Error("email / password doesn't match or exists");
+    throw new ErrorResponse("email / password doesn't match or exists", 400);
   }
 
   // * generate paseto token

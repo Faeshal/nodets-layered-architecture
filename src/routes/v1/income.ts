@@ -38,9 +38,5 @@ router.delete(
   incomeController.deleteIncome
 );
 
-router.get("/incomes/test/aja", (req, res) => {
-  res.status(200).json({ success: true, data: "apa" });
-});
-
 export default router;
 // module.exports = router;
