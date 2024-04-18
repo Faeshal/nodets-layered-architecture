@@ -17,13 +17,13 @@ router.post(
 );
 router.get(
   "/incomes/:id",
-  [param("id", "param must be integer").exists().isNumeric()],
+  [param("id", "param must be exist").exists()],
   incomeController.getIncome
 );
 router.put(
   "/incomes/:id",
   [
-    param("id", "param must be integer").exists().isNumeric(),
+    param("id", "param must be exist").exists(),
     body("name", "name is required").not().isEmpty().trim(),
     body("value", "value is required & must be an integer")
       .not()

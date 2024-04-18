@@ -2,13 +2,13 @@ import "dotenv/config";
 import * as userRepo from "../repositories/user";
 import { ErrorResponse } from "../middleware/errorHandler";
 import { generateToken } from "../utils/paseto";
-import { RegisterUser } from "../interfaces/user";
+import { LoginRequest, RegisterRequest } from "../interfaces/user";
 import bcrypt from "bcrypt";
 import log4js from "log4js";
 const log = log4js.getLogger("service:auth");
 log.level = "debug";
 
-export const register = async (body: RegisterUser) => {
+export const register = async (body: RegisterRequest) => {
   log.info("body:", body);
   const { username, email, password, role, gender, job, address, age } = body;
 
@@ -49,7 +49,7 @@ export const register = async (body: RegisterUser) => {
   };
 };
 
-export const login = async (body: { email: string; password: string }) => {
+export const login = async (body: LoginRequest) => {
   log.info("body:", body);
   const { email, password } = body;
 

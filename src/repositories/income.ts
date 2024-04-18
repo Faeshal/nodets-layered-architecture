@@ -8,9 +8,8 @@ log.level = "info";
 const incomeRepo = AppDataSource.getRepository(Income);
 
 export const create = async (body: any) => {
-  log.warn("data", body);
+  log.info("data", body);
   const data = await incomeRepo.save(body);
-  log.warn("data", data);
   return data;
 };
 
@@ -46,6 +45,7 @@ export const findOne = async (filter: any) => {
 };
 
 export const update = async (id: string, body: any) => {
+  log.info("body", body);
   const data = await incomeRepo.update(id, body);
   return data;
 };

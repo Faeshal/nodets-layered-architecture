@@ -104,7 +104,12 @@ export const updateIncome = asyncHandler(async (req, res, next) => {
   }
 
   // * call update service
-  await incomeService.update(id, req.body);
+  let updateBody = {
+    id: String(id),
+    name: req.body.name,
+    value: req.body.value,
+  };
+  await incomeService.updateIncome(updateBody);
 
   res.status(200).json({ success: true, message: "update success" });
 });

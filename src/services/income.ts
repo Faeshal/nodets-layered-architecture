@@ -1,10 +1,12 @@
 import * as incomeRepo from "../repositories/income";
 import * as categoryRepo from "../repositories/category";
 import log4js from "log4js";
+import { FilterRequest } from "../interfaces/generic";
+import { AddIncomeRequest, UpdateIncomeRequest } from "../interfaces/income";
 const log = log4js.getLogger("service:income");
 log.level = "debug";
 
-export const addIncome = async (body: any) => {
+export const addIncome = async (body: AddIncomeRequest) => {
   log.info("body:", body);
   const { name, value, userId, categories } = body;
 
@@ -30,13 +32,13 @@ export const addIncome = async (body: any) => {
       "income_categories_category",
       { incomeId, categoryId }
     );
-    log.warn("inser to pivot:", insert);
+    log.info("inser to pivot:", insert);
   }
 
   return data;
 };
 
-export const getIncomes = async (body: any) => {
+export const getIncomes = async (body: FilterRequest) => {
   log.info("body:", body);
   const { limit, offset, filter } = body;
   let data = await incomeRepo.findAll(limit, offset, filter);
@@ -49,9 +51,10 @@ export const getIncome = async (id: string) => {
   return data;
 };
 
-export const update = async (id: string, body: any) => {
-  log.info(`id:${id} - body:${body}`);
-  const data = await incomeRepo.update(id, body);
+export const updateIncome = async (body: UpdateIncomeRequest) => {
+  log.info("body:", body);
+  const { id, ...bodyWithoutId } = body;
+  const data = await incomeRepo.update(id, bodyWithoutId);
   return data;
 };
 

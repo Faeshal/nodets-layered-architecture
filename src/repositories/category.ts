@@ -38,16 +38,16 @@ export const findOne = async (filter: any) => {
   return data;
 };
 
-export const destroy = async (filter: any) => {
-  // const data = await Category.softRemove(filter) // hard delete
+export const destroy = async (id: string) => {
+  // const data = await Category.softRemove(id) // hard delete
   // const data = await AppDataSource
   //     .createQueryBuilder(Category, "category")
   //     .softDelete()
-  //     .where("id = :id", filter).execute();
+  //     .where("id = :id", id).execute();
   const data = await AppDataSource.manager
     .createQueryBuilder(Category, "category")
     .softDelete()
-    .where("id = :id", filter)
+    .where("id = :id", { id })
     .execute();
   return data;
 };

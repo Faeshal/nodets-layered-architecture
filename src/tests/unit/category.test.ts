@@ -93,7 +93,7 @@ describe("UNIT:CATEGORY", () => {
 
       const result = await categoryService.deleteCategory(mockCategoryId);
 
-      expect(categoryRepo.destroy).toHaveBeenCalledWith({ id: mockCategoryId });
+      expect(categoryRepo.destroy).toHaveBeenCalledWith(mockCategoryId);
       expect(result).toEqual({ affected: 1 });
     });
   });
