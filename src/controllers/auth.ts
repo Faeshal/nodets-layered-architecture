@@ -32,7 +32,7 @@ export const register = asyncHandler(async (req, res, next) => {
     gender,
   });
 
-  res.status(200).json({ success: true, message: "ok", data: result.data });
+  res.status(200).json({ success: true, message: "ok", data: result });
 });
 
 // * @route POST /api/v1/auth/login
@@ -53,5 +53,5 @@ export const login = asyncHandler(async (req, res, next) => {
   // * call service
   const result = await authService.login({ email, password });
 
-  res.status(200).json({ success: true, message: "ok", data: result.data });
+  res.status(200).json({ success: true, message: "ok", data: result });
 });

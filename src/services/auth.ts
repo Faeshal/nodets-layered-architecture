@@ -41,12 +41,7 @@ export const register = async (body: RegisterRequest) => {
 
   // * formating return data
   const fmtData = { id: result.id, username, email };
-  return {
-    success: true,
-    statusCode: 200,
-    message: "ok",
-    data: fmtData,
-  };
+  return fmtData;
 };
 
 export const login = async (body: LoginRequest) => {
@@ -78,5 +73,5 @@ export const login = async (body: LoginRequest) => {
     isLoggedIn: true,
     accessToken: accessToken.data,
   };
-  return { success: true, statusCode: 200, message: "ok", data: fmtData };
+  return fmtData;
 };
