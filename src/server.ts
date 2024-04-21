@@ -16,8 +16,8 @@ import route from "./routes/index";
 const PORT: any = process.env.PORT || 3000;
 const pe = new PrettyError();
 const app: any = express();
-const log = log4js.getLogger("entrypoint");
-log.level = "info";
+const log = log4js.getLogger("default");
+const logError = log4js.getLogger("error");
 
 // * Security, Compression & Parser
 pe.start();
@@ -49,35 +49,42 @@ app.use(route);
 app.use(errorHandler);
 
 // * Rolliing log (optional)
-let layoutConfig = {
+const layoutConfig = {
   type: "pattern",
-  pattern: "%x{id}: [%x{info}] %p %c - %[%m%]",
+  pattern: "%x{id}: [%x{info}] %p %c: %[%m%]",
   tokens: {
-    id: () => {
-      return Date.now();
-    },
-    info: () => {
-      const info = dayjs().format("D/M/YYYY h:mm:ss A");
-      return info;
-    },
+    id: () => Date.now(),
+    info: () => dayjs().format("D/M/YYYY h:mm:ss A"),
   },
 };
+
 log4js.configure({
   appenders: {
     express: {
+      // Appender for general express logs
       type: "dateFile",
       filename: "./logs/express.log",
       numBackups: 7,
+      maxLogSize: 10485760, // 10MB (adjust as needed)
       layout: layoutConfig,
-      maxLogSize: 7000000, // byte == 7mb
+    },
+    errorFile: {
+      // Appender for error logs
+      type: "dateFile",
+      filename: "./logs/errors.log",
+      numBackups: 7,
+      maxLogSize: 10485760, // 10MB (adjust as needed)
+      layout: layoutConfig,
     },
     console: {
+      // for showing the log to terminal
       type: "console",
       layout: layoutConfig,
     },
   },
   categories: {
-    default: { appenders: ["express", "console"], level: "debug" },
+    default: { appenders: ["express", "console"], level: "info" }, // Log all non-error messages to express
+    error: { appenders: ["errorFile", "console"], level: "error" }, // Log errors to errorFile
   },
 });
 
@@ -87,7 +94,7 @@ log4js.configure({
     await AppDataSource.initialize();
     log.info("✅ Database Connected");
   } catch (error) {
-    log.error("Maria Connection Failure 🔥", error);
+    logError.error("Maria Connection Failure 🔥", error);
     process.exit(1);
   }
 })();
@@ -95,7 +102,7 @@ log4js.configure({
 // * Server Listen
 app.listen(PORT, (err: any) => {
   if (err) {
-    log.error(`Error : ${err}`);
+    logError.error(`Error : ${err}`);
     process.exit(1);
   }
   log.info(`✅ Server is Running On Port: ${PORT}`);

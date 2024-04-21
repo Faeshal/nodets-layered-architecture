@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import log4js from "log4js";
 const log = log4js.getLogger("middleware:errorHandler");
-log.level = "info";
 
 class ErrorResponse extends Error {
   public statusCode: number;
@@ -19,7 +18,7 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  log.error("errorHandler:", err);
+  log.info("errorHandler:", err);
   res.status(err.statusCode || 500).json({
     success: false,
     message: err.message || "Server Error",

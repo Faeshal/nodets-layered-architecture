@@ -6,7 +6,6 @@ import { LoginRequest, RegisterRequest } from "../interfaces/user";
 import bcrypt from "bcrypt";
 import log4js from "log4js";
 const log = log4js.getLogger("service:auth");
-log.level = "debug";
 
 export const register = async (body: RegisterRequest) => {
   log.info("body:", body);
