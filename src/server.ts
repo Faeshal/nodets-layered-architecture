@@ -64,8 +64,8 @@ log4js.configure({
       // Appender for general express logs
       type: "dateFile",
       filename: "./logs/express.log",
-      numBackups: 7,
-      maxLogSize: 10485760, // 10MB (adjust as needed)
+      numBackups: 3,
+      maxLogSize: 2097152, // 2MB (adjust as needed)
       layout: layoutConfig,
     },
     errorFile: {
