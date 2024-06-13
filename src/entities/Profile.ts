@@ -8,7 +8,7 @@ import {
   DeleteDateColumn,
 } from "typeorm";
 import { User } from "./User";
-import dayjs from "dayjs";
+import dateFmt from "../utils/dateFmt";
 
 @Entity()
 export class Profile {
@@ -27,37 +27,13 @@ export class Profile {
   @Column()
   job: string;
 
-  @CreateDateColumn({
-    precision: 0,
-    transformer: {
-      to(value) {
-        return value;
-      },
-      from(value) {
-        const date = dayjs(value).format("YYYY-MM-DD HH:mm:ss");
-        return date;
-      },
-    },
-  })
+  @CreateDateColumn({ precision: 0, transformer: dateFmt })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    precision: 0,
-    transformer: {
-      to(value) {
-        return value;
-      },
-      from(value) {
-        const date = dayjs(value).format("YYYY-MM-DD HH:mm:ss");
-        return date;
-      },
-    },
-  })
+  @UpdateDateColumn({ precision: 0, transformer: dateFmt })
   updatedAt: Date;
 
-  @DeleteDateColumn({
-    precision: 0,
-  })
+  @DeleteDateColumn({ precision: 0 })
   deletedAt: Date;
 
   @OneToOne(() => User, (user: any) => user.profile)

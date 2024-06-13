@@ -12,7 +12,7 @@ import {
 } from "typeorm";
 import { Income } from "./Income";
 import { Profile } from "./Profile";
-import dayjs from "dayjs";
+import dateFmt from "../utils/dateFmt";
 
 @Entity()
 export class User {
@@ -31,37 +31,13 @@ export class User {
   @Column()
   password: string;
 
-  @CreateDateColumn({
-    precision: 0,
-    transformer: {
-      to(value) {
-        return value;
-      },
-      from(value) {
-        const date = dayjs(value).format("YYYY-MM-DD HH:mm:ss");
-        return date;
-      },
-    },
-  })
+  @CreateDateColumn({ precision: 0, transformer: dateFmt })
   createdAt: Date;
 
-  @UpdateDateColumn({
-    precision: 0,
-    transformer: {
-      to(value) {
-        return value;
-      },
-      from(value) {
-        const date = dayjs(value).format("YYYY-MM-DD HH:mm:ss");
-        return date;
-      },
-    },
-  })
+  @UpdateDateColumn({ precision: 0, transformer: dateFmt })
   updatedAt: Date;
 
-  @DeleteDateColumn({
-    precision: 0,
-  })
+  @DeleteDateColumn({ precision: 0 })
   deletedAt: Date;
 
   @OneToMany(() => Income, (income: any) => income.user)
