@@ -22,4 +22,4 @@
 
 This three-layer setup serves as a reliable scaffolding for most Node.js applications, making your applications easier to code, maintain, debug and test.
 
-🗡 **November 2023**
+🗡 **November 2023 - [Faeshal](https://github.com/faeshal)**
