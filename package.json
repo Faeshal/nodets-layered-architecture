@@ -49,7 +49,7 @@
     "@types/hpp": "^0.2.3",
     "@types/jest": "^29.5.11",
     "@types/morgan": "^1.9.6",
-    "@types/node": "^16.11.10",
+    "@types/node": "^22.18.13",
     "@types/supertest": "^2.0.16",
     "@types/underscore": "^1.11.9",
     "chai": "^4.3.6",
@@ -60,7 +60,7 @@
     "nodemon": "^3.0.1",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
-    "ts-node": "10.7.0",
-    "typescript": "4.5.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }
