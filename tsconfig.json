@@ -3,6 +3,9 @@
     /* Basic Options */
     "target": "es6",
     "module": "commonjs",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
+    "rootDir": ".",
     "outDir": "./dist",
     /* Strict Type-Checking Options */
     "strict": true,
@@ -16,5 +19,6 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "typeRoots": ["./src/@types", "./node_modules/@types"]
-  }
+  },
+  "exclude": ["node_modules", "dist", "src/tests"]
 }

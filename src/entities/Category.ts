@@ -15,7 +15,7 @@ export class Category {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   tag: string;
 
   @CreateDateColumn({ precision: 0, transformer: dateFmt })

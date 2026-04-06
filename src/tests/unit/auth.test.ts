@@ -1,5 +1,6 @@
 import * as authService from "../../services/auth";
 import * as userRepo from "../../repositories/user";
+import * as pasetoUtils from "../../utils/paseto";
 import bcrypt from "bcrypt";
 import log4js from "log4js";
 const log = log4js.getLogger("test:unit:auth");
@@ -7,10 +8,17 @@ log.level = "info";
 
 jest.mock("../../repositories/user.ts");
 jest.mock("bcrypt"); // Mock bcrypt
+jest.mock("../../utils/paseto");
 
 describe("UNIT:AUTH", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    (pasetoUtils.generateToken as jest.Mock).mockResolvedValue({
+      success: true,
+      statusCode: 200,
+      message: "ok",
+      data: "mock-access-token",
+    });
   });
 
   describe("register", () => {

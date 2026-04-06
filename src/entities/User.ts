@@ -8,7 +8,6 @@ import {
   DeleteDateColumn,
   JoinColumn,
   OneToOne,
-  DatabaseType,
 } from "typeorm";
 import { Income } from "./Income";
 import { Profile } from "./Profile";
@@ -19,16 +18,16 @@ export class User {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   username: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   email: string;
 
-  @Column({ default: "user" })
+  @Column({ type: "varchar", default: "user" })
   role: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   password: string;
 
   @CreateDateColumn({ precision: 0, transformer: dateFmt })

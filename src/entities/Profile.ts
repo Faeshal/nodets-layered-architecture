@@ -15,16 +15,16 @@ export class Profile {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   address: string;
 
-  @Column()
+  @Column({ type: "varchar" })
   gender: string;
 
-  @Column()
+  @Column({ type: "int" })
   age: number;
 
-  @Column()
+  @Column({ type: "varchar" })
   job: string;
 
   @CreateDateColumn({ precision: 0, transformer: dateFmt })

@@ -88,24 +88,25 @@ log4js.configure({
   },
 });
 
-// * db sync
-(async () => {
-  try {
-    await AppDataSource.initialize();
-    log.info("✅ Database Connected");
-  } catch (error) {
-    logError.error("Maria Connection Failure 🔥", error);
-    process.exit(1);
-  }
-})();
+// * db sync + Server Listen (only when run directly, not when imported for tests)
+if (require.main === module) {
+  (async () => {
+    try {
+      await AppDataSource.initialize();
+      log.info("✅ Database Connected");
+    } catch (error) {
+      logError.error("Maria Connection Failure 🔥", error);
+      process.exit(1);
+    }
+  })();
 
-// * Server Listen
-app.listen(PORT, (err: any) => {
-  if (err) {
-    logError.error(`Error : ${err}`);
-    process.exit(1);
-  }
-  log.info(`✅ Server is Running On Port: ${PORT}`);
-});
+  app.listen(PORT, (err: any) => {
+    if (err) {
+      logError.error(`Error : ${err}`);
+      process.exit(1);
+    }
+    log.info(`✅ Server is Running On Port: ${PORT}`);
+  });
+}
 
 export default app;
