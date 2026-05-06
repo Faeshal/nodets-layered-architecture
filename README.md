@@ -1,6 +1,6 @@
 🥇 TypeScript Service Layer Architecture REST API Boilerplate with **[TypeORM](https://typeorm.io)** ORM
 
-![img](https://i.postimg.cc/Hkffrzb4/img.jpg)
+![img](https://i.postimg.cc/J0vFkgDN/tslayer.png)
 
 🌴 Looking for the **JS** version? **[nodejs-layered-architecture](https://github.com/Faeshal/nodejs-layered-architecture)**
 
