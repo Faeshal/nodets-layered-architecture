@@ -1,4 +1,4 @@
-import asyncHandler from "express-async-handler";
+import { Request, Response, NextFunction } from "express";
 import * as incomeService from "../services/income";
 import { ErrorResponse } from "../middleware/errorHandler";
 import { validationResult } from "express-validator";
@@ -10,7 +10,11 @@ log.level = "info";
 // * @route GET /api/v1/incomes
 // @desc    get incomes
 // @access  public
-export const getIncomes = asyncHandler(async (req, res, next) => {
+export const getIncomes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { name } = req.query;
   let filter: any = {};
   if (name) {
@@ -18,7 +22,7 @@ export const getIncomes = asyncHandler(async (req, res, next) => {
   }
 
   const data = await incomeService.getIncomes({
-    limit: req.query.limit,
+    limit: req.pagination?.limit,
     offset: req.skip,
     filter,
   });
@@ -26,9 +30,8 @@ export const getIncomes = asyncHandler(async (req, res, next) => {
   // * pagination
   const pagin = await paginate({
     length: data[1],
-    limit: req.query.limit,
-    page: req.query.page,
-    req,
+    limit: req.pagination?.limit,
+    page: req.pagination?.page,
   });
 
   res.status(200).json({
@@ -39,12 +42,16 @@ export const getIncomes = asyncHandler(async (req, res, next) => {
     nextPage: pagin?.nextPage,
     data: data[0] || [],
   });
-});
+};
 
 // * @route POST /api/v1/incomes
 // @desc    add new incomes
 // @access  public
-export const addIncomes = asyncHandler(async (req, res, next) => {
+export const addIncomes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   log.info("body:", req.body);
   const { name, value, userId, categories } = req.body;
 
@@ -52,7 +59,7 @@ export const addIncomes = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
+      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400),
     );
   }
 
@@ -64,36 +71,44 @@ export const addIncomes = asyncHandler(async (req, res, next) => {
   });
 
   res.status(201).json({ success: true, message: "created", data });
-});
+};
 
 // * @route GET /api/v1/incomes/:id
 // @desc    get income by id
 // @access  public
-export const getIncome = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
+export const getIncome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const id = req.params.id as string;
   // *Express Validator
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
+      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400),
     );
   }
   const data = await incomeService.getIncome(id);
   res.status(200).json({ success: true, data: data || {} });
-});
+};
 
 // * @route PUT /api/v1/incomes/:id
 // @desc    update income by id
 // @access  public
-export const updateIncome = asyncHandler(async (req, res, next) => {
+export const updateIncome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   log.info("body:", req.body);
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   // *Express Validator
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
+      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400),
     );
   }
 
@@ -112,13 +127,17 @@ export const updateIncome = asyncHandler(async (req, res, next) => {
   await incomeService.updateIncome(updateBody);
 
   res.status(200).json({ success: true, message: "update success" });
-});
+};
 
 // * @route DELETE /api/v1/incomes/:id
 // @desc    delete income by id
 // @access  public
-export const deleteIncome = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
+export const deleteIncome = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const id = req.params.id as string;
 
   // * check valid id
   const isValid = await incomeService.getIncome(id);
@@ -130,4 +149,4 @@ export const deleteIncome = asyncHandler(async (req, res, next) => {
   await incomeService.destroy(id);
 
   res.status(200).json({ success: true, message: "deleted" });
-});
+};

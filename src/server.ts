@@ -6,10 +6,9 @@ import { AppDataSource } from "./config/data-source";
 import morgan from "morgan";
 import cors from "cors";
 import compression from "compression";
-import hpp from "hpp";
 import helmet from "helmet";
 import log4js from "log4js";
-import paginate from "express-paginate";
+import { paginate } from "./middleware/paginate";
 import dayjs from "dayjs";
 import { errorHandler } from "./middleware/errorHandler";
 import route from "./routes/index";
@@ -22,7 +21,6 @@ const logError = log4js.getLogger("error");
 // * Security, Compression & Parser
 pe.start();
 app.use(helmet());
-app.use(hpp());
 app.use(cors());
 app.use(compression());
 app.use(express.json());
@@ -40,7 +38,7 @@ morgan.token("time", (req: Request) => {
 app.use(morgan("morgan: [:time] :method :url - :status"));
 
 // * Paginate
-app.use(paginate.middleware(10, 30));
+app.use(paginate(10, 30));
 
 // * Route
 app.use(route);
@@ -93,9 +91,9 @@ if (require.main === module) {
   (async () => {
     try {
       await AppDataSource.initialize();
-      log.info("✅ Database Connected");
+      log.info("✅ DB Connected");
     } catch (error) {
-      logError.error("Maria Connection Failure 🔥", error);
+      logError.error("DB Connection Failure 🔥", error);
       process.exit(1);
     }
   })();

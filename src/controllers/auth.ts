@@ -1,4 +1,4 @@
-import asyncHandler from "express-async-handler";
+import { Request, Response, NextFunction } from "express";
 import * as authService from "../services/auth";
 import { validationResult } from "express-validator";
 import { ErrorResponse } from "../middleware/errorHandler";
@@ -9,7 +9,11 @@ log.level = "info";
 // * @route   POST /api/v1/auth/register
 // @desc      signup new user
 // @access    Public
-export const register = asyncHandler(async (req, res, next) => {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   var { username, email, password, role, job, age, address, gender } = req.body;
   log.info("body:", req.body);
 
@@ -17,7 +21,7 @@ export const register = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
+      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400),
     );
   }
 
@@ -33,12 +37,16 @@ export const register = asyncHandler(async (req, res, next) => {
   });
 
   res.status(200).json({ success: true, message: "ok", data: result });
-});
+};
 
 // * @route POST /api/v1/auth/login
 // @desc    sign in user
 // @access  public
-export const login = asyncHandler(async (req, res, next) => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { email, password } = req.body;
   log.info("body:", req.body);
 
@@ -46,7 +54,7 @@ export const login = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
+      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400),
     );
   }
 
@@ -54,4 +62,4 @@ export const login = asyncHandler(async (req, res, next) => {
   const result = await authService.login({ email, password });
 
   res.status(200).json({ success: true, message: "ok", data: result });
-});
+};
