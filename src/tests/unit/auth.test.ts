@@ -140,7 +140,7 @@ describe("UNIT:AUTH", () => {
       expect(userRepo.findOne).toHaveBeenCalledWith({ email: mockBody.email });
       expect(bcrypt.compare).toHaveBeenCalledWith(
         mockBody.password,
-        mockUser.password
+        mockUser.password,
       );
       expect(result).toEqual(expectedResult);
     });
