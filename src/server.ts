@@ -46,7 +46,7 @@ app.use(route);
 // * Custom Error Handler
 app.use(errorHandler);
 
-// * Rolliing log (optional)
+// * Logging (console only — cloud deployments handle log aggregation themselves)
 const layoutConfig = {
   type: "pattern",
   pattern: "%x{id}: [%x{info}] %p %c: %[%m%]",
@@ -58,31 +58,14 @@ const layoutConfig = {
 
 log4js.configure({
   appenders: {
-    express: {
-      // Appender for general express logs
-      type: "dateFile",
-      filename: "./logs/express.log",
-      numBackups: 3,
-      maxLogSize: 2097152, // 2MB (adjust as needed)
-      layout: layoutConfig,
-    },
-    errorFile: {
-      // Appender for error logs
-      type: "dateFile",
-      filename: "./logs/errors.log",
-      numBackups: 7,
-      maxLogSize: 10485760, // 10MB (adjust as needed)
-      layout: layoutConfig,
-    },
     console: {
-      // for showing the log to terminal
       type: "console",
       layout: layoutConfig,
     },
   },
   categories: {
-    default: { appenders: ["express", "console"], level: "info" }, // Log all non-error messages to express
-    error: { appenders: ["errorFile", "console"], level: "error" }, // Log errors to errorFile
+    default: { appenders: ["console"], level: "info" },
+    error: { appenders: ["console"], level: "error" },
   },
 });
 
