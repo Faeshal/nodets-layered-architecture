@@ -1,4 +1,5 @@
 # 🍔 TypeScript Service Layer Architecture
+
 ![Service Layer Architecture diagram](https://i.postimg.cc/J0vFkgDN/tslayer.png)
 
 Express.js is an **unopinionated** framework — developers are free to structure their projects however they like, unlike opinionated frameworks such as Laravel or Spring Boot. While this flexibility is powerful, it can make it hard to find a consistent best practice. This boilerplate is the structure I personally use as a starting point for backend projects. I call it **Service Layer Architecture**.
@@ -15,7 +16,7 @@ Express.js is an **unopinionated** framework — developers are free to structur
 
 3. Data Access Layer / Repository (database interaction) 🛡️
 
-   All database operations are handled here — queries, connections, and ORM models. Keeping this layer separate makes it easy to swap databases or ORMs without touching business logic.
+   All database operations are handled here — queries, connections, and ORM models (this boilerplate uses [TypeORM](https://typeorm.io)). Keeping this layer separate makes it easy to swap databases or ORMs without touching business logic.
 
 This three-layer setup provides a reliable foundation for most Node.js applications, making the codebase easier to develop, maintain, debug, and test.
 
