@@ -1,4 +1,4 @@
-import asyncHandler from "express-async-handler";
+import { Request, Response, NextFunction } from "express";
 import * as userService from "../services/user";
 import { paginate } from "../utils/paginate";
 import _ from "underscore";
@@ -9,7 +9,11 @@ log.level = "info";
 // * @route GET /api/v1/users
 // @desc    get users
 // @access  private
-export const getUsers = asyncHandler(async (req, res, next) => {
+export const getUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { role, search } = req.query;
   let filter: any = {};
   if (role) {
@@ -20,7 +24,7 @@ export const getUsers = asyncHandler(async (req, res, next) => {
   }
 
   const data = await userService.getUsers({
-    limit: req.query.limit,
+    limit: req.pagination?.limit,
     offset: req.skip,
     filter,
   });
@@ -28,9 +32,8 @@ export const getUsers = asyncHandler(async (req, res, next) => {
   // * pagination
   const pagin = await paginate({
     length: data[1],
-    limit: req.query.limit,
-    page: req.query.page,
-    req,
+    limit: req.pagination?.limit,
+    page: req.pagination?.page,
   });
 
   res.status(200).json({
@@ -41,12 +44,16 @@ export const getUsers = asyncHandler(async (req, res, next) => {
     nextPage: pagin?.nextPage,
     data: data[0] || [],
   });
-});
+};
 
 // * @route POST /api/v1/users/reports/dateranges
 // @desc    get users
 // @access  private
-export const getUsersByDateRange = asyncHandler(async (req, res, next) => {
+export const getUsersByDateRange = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { role, startDate, endDate, job } = req.body;
   let filter: any = {};
   filter.startDate = startDate;
@@ -60,7 +67,7 @@ export const getUsersByDateRange = asyncHandler(async (req, res, next) => {
   }
 
   const data = await userService.getUsersByDateRange({
-    limit: req.query.limit,
+    limit: req.pagination?.limit,
     offset: req.skip,
     filter,
   });
@@ -68,9 +75,8 @@ export const getUsersByDateRange = asyncHandler(async (req, res, next) => {
   // * pagination
   const pagin = await paginate({
     length: data[1],
-    limit: req.query.limit,
-    page: req.query.page,
-    req,
+    limit: req.pagination?.limit,
+    page: req.pagination?.page,
   });
 
   res.status(200).json({
@@ -81,4 +87,4 @@ export const getUsersByDateRange = asyncHandler(async (req, res, next) => {
     nextPage: pagin?.nextPage,
     data: data[0] || [],
   });
-});
+};

@@ -8,6 +8,12 @@ declare global {
   namespace Express {
     interface Request {
       user: any;
+      skip?: number;
+      offset?: number;
+      pagination?: {
+        page: number;
+        limit: number;
+      };
     }
   }
 }

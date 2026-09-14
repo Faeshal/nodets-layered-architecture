@@ -1,4 +1,4 @@
-import asyncHandler from "express-async-handler";
+import { Request, Response, NextFunction } from "express";
 import * as categoryService from "../services/category";
 import { validationResult } from "express-validator";
 import { ErrorResponse } from "../middleware/errorHandler";
@@ -10,7 +10,11 @@ log.level = "info";
 // * @route GET /api/v1/categories
 // @desc    get categories
 // @access  public
-export const getCategories = asyncHandler(async (req, res, next) => {
+export const getCategories = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const { name } = req.query;
   let filter: any = {};
   if (name) {
@@ -18,7 +22,7 @@ export const getCategories = asyncHandler(async (req, res, next) => {
   }
 
   const data = await categoryService.getCategories({
-    limit: req.query.limit,
+    limit: req.pagination?.limit,
     offset: req.skip,
     filter,
   });
@@ -26,9 +30,8 @@ export const getCategories = asyncHandler(async (req, res, next) => {
   // * pagination
   const pagin = await paginate({
     length: data[1],
-    limit: req.query.limit,
-    page: req.query.page,
-    req,
+    limit: req.pagination?.limit,
+    page: req.pagination?.page,
   });
 
   res.status(200).json({
@@ -39,39 +42,47 @@ export const getCategories = asyncHandler(async (req, res, next) => {
     nextPage: pagin?.nextPage,
     data: data[0] || [],
   });
-});
+};
 
 // * @route POST /api/v1/categories
 // @desc    add new categories
 // @access  public
-export const addCategory = asyncHandler(async (req, res, next) => {
+export const addCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   log.info("body:", req.body);
 
   // *Express Validator
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
+      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400),
     );
   }
   const data = await categoryService.addCategory(req.body);
   res.status(201).json({ success: true, message: "category create", data });
-});
+};
 
 // * @route delete /api/v1/categories
 // @desc    delete categories
 // @access  public
-export const deleteCategory = asyncHandler(async (req, res, next) => {
+export const deleteCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   log.info("body:", req.body);
-  let { id } = req.params;
+  const id = req.params.id as string;
 
   // *Express Validator
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400)
+      new ErrorResponse(errors.array({ onlyFirstError: true })[0].msg, 400),
     );
   }
   await categoryService.deleteCategory(id);
   res.status(201).json({ success: true, message: "category delete" });
-});
+};
