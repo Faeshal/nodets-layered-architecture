@@ -1,7 +1,4 @@
 # 🍔 TypeScript Service Layer Architecture
-
-**REST API Boilerplate with [TypeORM](https://typeorm.io)**
-
 ![Service Layer Architecture diagram](https://i.postimg.cc/J0vFkgDN/tslayer.png)
 
 Express.js is an **unopinionated** framework — developers are free to structure their projects however they like, unlike opinionated frameworks such as Laravel or Spring Boot. While this flexibility is powerful, it can make it hard to find a consistent best practice. This boilerplate is the structure I personally use as a starting point for backend projects. I call it **Service Layer Architecture**.
