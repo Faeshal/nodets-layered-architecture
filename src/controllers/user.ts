@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as userService from "../services/user";
 import { paginate } from "../utils/paginate";
-import _ from "underscore";
 import log4js from "log4js";
 const log = log4js.getLogger("controllers:user");
 log.level = "info";
