@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi, type Mock } from "vitest";
 import * as authService from "../../services/auth";
 import * as userRepo from "../../repositories/user";
 import * as pasetoUtils from "../../utils/paseto";
@@ -6,14 +7,14 @@ import log4js from "log4js";
 const log = log4js.getLogger("test:unit:auth");
 log.level = "info";
 
-jest.mock("../../repositories/user.ts");
-jest.mock("bcrypt"); // Mock bcrypt
-jest.mock("../../utils/paseto");
+vi.mock("../../repositories/user.ts");
+vi.mock("bcrypt"); // Mock bcrypt
+vi.mock("../../utils/paseto");
 
 describe("UNIT:AUTH", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    (pasetoUtils.generateToken as jest.Mock).mockResolvedValue({
+    vi.clearAllMocks();
+    (pasetoUtils.generateToken as Mock).mockResolvedValue({
       success: true,
       statusCode: 200,
       message: "ok",
@@ -78,8 +79,8 @@ describe("UNIT:AUTH", () => {
       };
 
       // Mocking the methods
-      (userRepo.create as jest.Mock).mockResolvedValue(resRepo);
-      (bcrypt.hash as jest.Mock).mockResolvedValueOnce(hashedPassword); // Mock hash for this test
+      (userRepo.create as Mock).mockResolvedValue(resRepo);
+      (bcrypt.hash as Mock).mockResolvedValueOnce(hashedPassword); // Mock hash for this test
 
       // call service
       const result = await authService.register(inputService);
@@ -122,10 +123,10 @@ describe("UNIT:AUTH", () => {
       };
 
       // mocked userRepo behavior
-      (userRepo.findOne as jest.Mock).mockResolvedValueOnce(mockUser);
+      (userRepo.findOne as Mock).mockResolvedValueOnce(mockUser);
 
       // mocked bcrypt.compare (replace with actual behavior)
-      (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true); // Simulate successful password match
+      (bcrypt.compare as Mock).mockResolvedValueOnce(true); // Simulate successful password match
 
       // expected result
       const expectedResult = {

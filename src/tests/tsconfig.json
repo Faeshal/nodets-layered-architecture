@@ -1,12 +1,12 @@
 {
   // IDE-only tsconfig for the test folder.
   // Root tsconfig.json excludes src/tests to prevent test files from being compiled into /dist (intentional).
-  // Side effect: VSCode TS server does not apply @types/jest here, causing 'Cannot find name jest' errors.
-  // This file re-includes the folder and explicitly adds jest types so VSCode recognizes jest globals.
+  // Test files import describe/it/expect/vi explicitly from "vitest" (no globals), so no special
+  // test-framework types are needed here anymore — this file only exists to re-include the folder.
   // It does NOT affect the production build.
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "node"]
+    "types": ["node"]
   },
   "include": ["**/*.ts"],
   "exclude": ["../../node_modules", "../../dist"]

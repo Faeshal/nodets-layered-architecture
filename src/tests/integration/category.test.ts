@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import supertest from "supertest";
 import app from "../../server";
 import Chance from "chance";
@@ -50,7 +51,7 @@ describe("INTEGRATION:CATEGORY", () => {
     it("should return a 200", async () => {
       const { categoryId } = category;
       const res = await supertest(app).delete(
-        `/api/v1/categories/${categoryId}`
+        `/api/v1/categories/${categoryId}`,
       );
       expect(res.status).toBe(201);
     });

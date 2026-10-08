@@ -1,3 +1,4 @@
+import { describe, it, expect, beforeEach, vi, type Mock } from "vitest";
 import * as categoryService from "../../services/category";
 import * as categoryRepo from "../../repositories/category";
 import { Category } from "../../entities/Category";
@@ -6,18 +7,18 @@ const log = log4js.getLogger("test:unit:category");
 log.level = "info";
 
 // style 1 (mock all)
-jest.mock("../../repositories/category");
+vi.mock("../../repositories/category");
 
 // style 2 (mock only the method needed)
-// jest.mock("../repositories/category", () => ({
-//   create: jest.fn(),
-//   findAll: jest.fn(),
-//   destroy: jest.fn(),
+// vi.mock("../repositories/category", () => ({
+//   create: vi.fn(),
+//   findAll: vi.fn(),
+//   destroy: vi.fn(),
 // }));
 
 describe("UNIT:CATEGORY", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("add category", () => {
@@ -36,7 +37,7 @@ describe("UNIT:CATEGORY", () => {
       };
 
       // Mocking the repository method
-      (categoryRepo.create as jest.Mock).mockResolvedValue(mockCreatedCategory);
+      (categoryRepo.create as Mock).mockResolvedValue(mockCreatedCategory);
 
       // call service
       const result = await categoryService.addCategory(mockBody);
@@ -71,14 +72,14 @@ describe("UNIT:CATEGORY", () => {
       const mockBody = { limit: 10, offset: 0, filter: {} };
 
       // Mocking the repository method
-      (categoryRepo.findAll as jest.Mock).mockResolvedValue(mockCategories);
+      (categoryRepo.findAll as Mock).mockResolvedValue(mockCategories);
 
       const result = await categoryService.getCategories(mockBody);
 
       expect(categoryRepo.findAll).toHaveBeenCalledWith(
         mockBody.limit,
         mockBody.offset,
-        mockBody.filter
+        mockBody.filter,
       );
       expect(result).toEqual(mockCategories);
     });
@@ -89,7 +90,7 @@ describe("UNIT:CATEGORY", () => {
       const mockCategoryId = "1";
 
       // Mocking the repository method
-      (categoryRepo.destroy as jest.Mock).mockResolvedValue({ affected: 1 });
+      (categoryRepo.destroy as Mock).mockResolvedValue({ affected: 1 });
 
       const result = await categoryService.deleteCategory(mockCategoryId);
 
